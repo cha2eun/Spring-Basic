@@ -3,12 +3,22 @@ package hello.hellospring.service;
 import hello.hellospring.domain.Member;
 import hello.hellospring.repository.MemberRepository;
 import hello.hellospring.repository.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class MemberService {
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    // 테스트케이스와 동일한 repository를 쓰기위해 선언 후 constructor 사용하는걸로 수정
+//    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository;
+    //memberRepository를 내가 생성하는 것이 아니라 외부에서 넣어주도록 변경
+    // = DI (defendency injection)
+    @Autowired
+    public MemberService(MemberRepository memberRepository){
+        this.memberRepository = memberRepository;
+    }
 
     /*
     * 회원가입
